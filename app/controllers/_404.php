@@ -1,1 +1,7 @@
-404 Page does not found
+<?php
+
+class _404 extends Controller {
+    public function index() {
+        echo "404 page doesn't found";
+    }
+}
