@@ -67,7 +67,7 @@ Trait Model {
         return false;
     }
 
-    public function update($id, $data, $id_column = 'id') {
+    public function update($keyValue, $data, $dataKey = 'id') {
         // Untuk menentukan apabila kolom yang akan dieksekusi sesuai dengan kolom yang ditentukan di models
         if(!empty($this->allowedColumns)){
             foreach($data as $key => $value) {
@@ -85,17 +85,17 @@ Trait Model {
         // Dilakukan untuk menghapus tanda ", " yang berada di akhir query
         $query = trim($query, ", ");
 
-        $query .= " WHERE $id_column = :$id_column";
+        $query .= " WHERE $dataKey = :$dataKey";
 
-        $data[$id_column] = $id;
+        $data[$dataKey] = $keyValue;
         $this->query($query, $data);
 
         return false;
     }
     
-    public function delete($id, $id_column = 'id') {
-        $data[$id_column] = $id;
-        $query = "DELETE FROM $this->table WHERE $id_column = :$id_column";
+    public function delete($keyValue, $dataKey = 'id') {
+        $data[$dataKey] = $keyValue;
+        $query = "DELETE FROM $this->table WHERE $dataKey = :$dataKey";
         $this->query($query, $data);
         return false;
     }
