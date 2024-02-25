@@ -9,3 +9,6 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 } else {
     define('ROOT', 'https://www.yourweb.com');
 }
+
+// Berfungsi untuk menunjukkan error ketika bernilai true dan false ketika ingin dijalankan pada live server
+define('DEBUG', true);

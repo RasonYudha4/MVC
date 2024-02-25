@@ -2,7 +2,7 @@
 
 Trait Model {
     use Database;
-    
+
     protected $table = 'users';
 
     public function selectWhere($data, $data_not = []) {
@@ -53,6 +53,14 @@ Trait Model {
     }
     
     public function insert($data) {
+        // Untuk menentukan apabila kolom yang akan dieksekusi sesuai dengan kolom yang ditentukan di models
+        if(!empty($this->allowedColumns)){
+            foreach($data as $key => $value) {
+                if(!in_array($key, $this->allowedColumns)) {
+                    unset($data[$key]);
+                }
+            }
+        }
         $keys = array_keys($data);
         $query = "INSERT INTO $this->table (". implode(",", $keys) .") VALUES (:". implode(", :", $keys) .")";
         $this->query($query, $data);
@@ -60,6 +68,14 @@ Trait Model {
     }
 
     public function update($id, $data, $id_column = 'id') {
+        // Untuk menentukan apabila kolom yang akan dieksekusi sesuai dengan kolom yang ditentukan di models
+        if(!empty($this->allowedColumns)){
+            foreach($data as $key => $value) {
+                if(!in_array($key, $this->allowedColumns)) {
+                    unset($data[$key]);
+                }
+            }
+        }
         $keys = array_keys($data);
         $query = "UPDATE $this->table SET ";
 
