@@ -3,10 +3,10 @@
 class Home extends Controller {
     public function index() {
         $model = new Model;
-        $arr['id'] = 1;
-        $arr['name'] = "Rifki";
+        $arr['name'] = "Putra";
+        $arr['age'] = 29;
 
-        $result = $model->selectWhere($arr);
+        $result = $model->update(2, $arr);
 
         $this->view('home');
     }

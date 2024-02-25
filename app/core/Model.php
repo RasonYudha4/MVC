@@ -1,7 +1,8 @@
 <?php
 
-class Model {
+Trait Model {
     use Database;
+    
     protected $table = 'users';
 
     public function selectWhere($data, $data_not = []) {
@@ -50,12 +51,36 @@ class Model {
 
         return false;
     }
+    
+    public function insert($data) {
+        $keys = array_keys($data);
+        $query = "INSERT INTO $this->table (". implode(",", $keys) .") VALUES (:". implode(", :", $keys) .")";
+        $this->query($query, $data);
+        return false;
+    }
 
     public function update($id, $data, $id_column = 'id') {
-        
+        $keys = array_keys($data);
+        $query = "UPDATE $this->table SET ";
+
+        foreach($keys as $key) {
+            $query .= $key . " = :" . $key . ", ";
+        }
+        // Dilakukan untuk menghapus tanda ", " yang berada di akhir query
+        $query = trim($query, ", ");
+
+        $query .= " WHERE $id_column = :$id_column";
+
+        $data[$id_column] = $id;
+        $this->query($query, $data);
+
+        return false;
     }
     
     public function delete($id, $id_column = 'id') {
-        
+        $data[$id_column] = $id;
+        $query = "DELETE FROM $this->table WHERE $id_column = :$id_column";
+        $this->query($query, $data);
+        return false;
     }
 }
